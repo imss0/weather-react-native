@@ -1,17 +1,59 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, ScrollView, Dimensions, Text, StyleSheet } from "react-native";
+import { useEffect, useState } from "react";
+import * as Location from "expo-location";
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 export default function App() {
+  const [city, setCity] = useState("Loading...");
+  const [location, setLocation] = useState();
+  const [ok, setOk] = useState(true);
+  const ask = async () => {
+    const { granted } = await Location.requestForegroundPermissionsAsync();
+    if (!granted) {
+      setOk(false);
+    }
+    const {
+      coords: { latitude, longitude },
+    } = await Location.getCurrentPositionAsync({ accuracy: 5 });
+    const location = await Location.reverseGeocodeAsync(
+      { latitude, longitude },
+      { useGoogleMaps: false }
+    );
+    if (location) {
+      setCity(location[0].city as string);
+    }
+  };
+  useEffect(() => {
+    ask();
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.city}>
-        <Text style={styles.cityName}>London</Text>
+        <Text style={styles.cityName}>{city}</Text>
       </View>
-      <View style={styles.weather}>
+      <ScrollView
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+        horizontal
+      >
         <View style={styles.day}>
           <Text style={styles.temperature}>12</Text>
           <Text style={styles.description}>Cloudy</Text>
         </View>
-      </View>
+        <View style={styles.day}>
+          <Text style={styles.temperature}>12</Text>
+          <Text style={styles.description}>Cloudy</Text>
+        </View>
+        <View style={styles.day}>
+          <Text style={styles.temperature}>12</Text>
+          <Text style={styles.description}>Cloudy</Text>
+        </View>
+        <View style={styles.day}>
+          <Text style={styles.temperature}>12</Text>
+          <Text style={styles.description}>Cloudy</Text>
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -19,10 +61,10 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#43B0F1",
   },
   city: {
-    flex: 1.2,
-    backgroundColor: "#FCEDDA",
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -31,12 +73,8 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     marginTop: 40,
   },
-  weather: {
-    flex: 3,
-    backgroundColor: "#EE4E34",
-  },
   day: {
-    flex: 1,
+    width: SCREEN_WIDTH,
     marginTop: 50,
     alignItems: "center",
   },
