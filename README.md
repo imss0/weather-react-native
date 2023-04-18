@@ -2,7 +2,7 @@
 
 More functionalities are coming soon :D
 
-<img src="https://i.ibb.co/Sdc7fnj/app-image.png" width="200"/>
+<img src="https://i.ibb.co/JqStFbx/IMG-FB660-DE420-B2-1.jpg" width="200"/>
 
 ### Get started
 
