@@ -8,10 +8,29 @@ import {
 } from "react-native";
 import { useEffect, useState } from "react";
 import * as Location from "expo-location";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import getEnvVars from "./environment";
-const { API_KEY } = getEnvVars();
+interface Props {
+  [key: string]: keyof typeof MaterialCommunityIcons.glyphMap;
+}
 
+const { API_KEY } = getEnvVars();
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
+const icons: Props = {
+  Atmosphere: "weather-fog",
+  Clear: "white-balance-sunny",
+  Clouds: "weather-cloudy",
+  Drizzle: "weather-rainy",
+  Rain: "weather-pouring",
+  Snow: "weather-snowy-heavy",
+  Thunderstorm: "weather-lightning",
+};
+
+// const clothing = {
+//   "-5": "",
+//   "0": "",
+//   "4": "",
+// };
 
 export default function App() {
   const [city, setCity] = useState("Loading...");
@@ -42,6 +61,16 @@ export default function App() {
     getWeather();
   }, []);
 
+  if (!ok) {
+    return (
+      <View style={styles.day}>
+        <Text style={styles.description}>
+          Sorry, This app needs a permission to get your location 🥺
+        </Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.city}>
@@ -59,6 +88,11 @@ export default function App() {
         ) : (
           days.map((day, index) => (
             <View key={index} style={styles.day}>
+              <MaterialCommunityIcons
+                name={icons[day.weather[0].main]}
+                size={48}
+                color="black"
+              />
               <Text style={styles.temperature}>{parseInt(day.temp.day)}°C</Text>
               <Text style={styles.description}>{day.weather[0].main}</Text>
               <Text style={styles.detail}>{day.weather[0].description}</Text>
@@ -100,7 +134,7 @@ const styles = StyleSheet.create({
     fontWeight: "300",
   },
   detail: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "300",
   },
 });
