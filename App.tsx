@@ -9,6 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import * as Location from "expo-location";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import moment from "moment";
 import getEnvVars from "./environment";
 interface Props {
   [key: string]: keyof typeof MaterialCommunityIcons.glyphMap;
@@ -88,6 +89,9 @@ export default function App() {
         ) : (
           days.map((day, index) => (
             <View key={index} style={styles.day}>
+              <Text style={styles.date}>
+                {moment.unix(day.dt).format("MMM Do")}
+              </Text>
               <MaterialCommunityIcons
                 name={icons[day.weather[0].main]}
                 size={48}
@@ -110,7 +114,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#43B0F1",
   },
   city: {
-    flex: 1,
+    flex: 0.7,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -121,13 +125,17 @@ const styles = StyleSheet.create({
   },
   day: {
     width: SCREEN_WIDTH,
-    marginTop: 50,
     alignItems: "center",
   },
   temperature: {
     fontSize: 108,
     fontWeight: "800",
     marginBottom: -20,
+  },
+  date: {
+    fontSize: 36,
+    fontWeight: "600",
+    margin: 20,
   },
   description: {
     fontSize: 48,
