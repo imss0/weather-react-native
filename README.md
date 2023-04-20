@@ -2,8 +2,10 @@
 
 More functionalities are coming soon :D
 
-<img src="https://i.ibb.co/WxYjckk/IMG-B1-F2379082-EE-1.jpg" width="200"/>
-<img src="https://i.ibb.co/C8fZz3T/IMG-B1-F2379082-EE-2.jpg" width="200"/>
+<p float="left">
+  <img src="https://i.ibb.co/WxYjckk/IMG-B1-F2379082-EE-1.jpg" width="200"/>
+  <img src="https://i.ibb.co/C8fZz3T/IMG-B1-F2379082-EE-2.jpg" width="200"/>
+</p>
 
 ### Get started
 
