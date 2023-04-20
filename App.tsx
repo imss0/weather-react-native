@@ -15,6 +15,10 @@ interface Props {
   [key: string]: keyof typeof MaterialCommunityIcons.glyphMap;
 }
 
+interface Colors {
+  [key: string]: string;
+}
+
 const { API_KEY } = getEnvVars();
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const icons: Props = {
@@ -27,15 +31,22 @@ const icons: Props = {
   Thunderstorm: "weather-lightning",
 };
 
-// const clothing = {
-//   "-5": "",
-//   "0": "",
-//   "4": "",
-// };
+const backgrounds: Colors = {
+  Atmosphere: "#E1E1E1",
+  Clear: "#00CCFF",
+  Clouds: "#B7B7B7",
+  Drizzle: "#BBD6B8",
+  Rain: "#9384D1",
+  Snow: "#FDE2F3",
+  Thunderstorm: "#7C96AB",
+};
 
 export default function App() {
   const [city, setCity] = useState("Loading...");
   const [days, setDays] = useState<any[]>([]);
+  const [mainWeather, setMainWeather] = useState<any[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   const [ok, setOk] = useState(true);
   const getWeather = async () => {
     const { granted } = await Location.requestForegroundPermissionsAsync();
@@ -56,6 +67,7 @@ export default function App() {
       );
       const json = await response.json();
       setDays(json.daily);
+      setMainWeather(days.map((day) => day.weather[0].main));
     }
   };
   useEffect(() => {
@@ -73,14 +85,26 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: backgrounds[mainWeather[currentIndex]] },
+      ]}
+    >
       <View style={styles.city}>
         <Text style={styles.cityName}>{city}</Text>
       </View>
       <ScrollView
         pagingEnabled
-        showsHorizontalScrollIndicator={false}
+        showsHorizontalScrollIndicator={true}
         horizontal
+        onMomentumScrollEnd={(event) => {
+          const index = Math.round(
+            event.nativeEvent.contentOffset.x /
+              event.nativeEvent.layoutMeasurement.width
+          );
+          setCurrentIndex(index);
+        }}
       >
         {days.length === 0 ? (
           <View style={styles.day}>
@@ -111,7 +135,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#43B0F1",
   },
   city: {
     flex: 0.7,
