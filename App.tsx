@@ -121,7 +121,19 @@ export default function App() {
                 size={48}
                 color="black"
               />
-              <Text style={styles.temperature}>{parseInt(day.temp.day)}°C</Text>
+              <View style={styles.temperatureContainer}>
+                <Text style={styles.temperature}>
+                  {parseInt(day.temp.day)}°C
+                </Text>
+                <View>
+                  <Text style={styles.detail}>
+                    MIN {parseInt(day.temp.min)}°C
+                  </Text>
+                  <Text style={styles.detail}>
+                    MAX {parseInt(day.temp.max)}°C
+                  </Text>
+                </View>
+              </View>
               <Text style={styles.description}>{day.weather[0].main}</Text>
               <Text style={styles.detail}>{day.weather[0].description}</Text>
             </View>
@@ -150,10 +162,16 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     alignItems: "center",
   },
+  temperatureContainer: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+  },
+
   temperature: {
-    fontSize: 108,
+    fontSize: 80,
     fontWeight: "800",
     marginBottom: -20,
+    marginRight: 20,
   },
   date: {
     fontSize: 36,
@@ -165,7 +183,7 @@ const styles = StyleSheet.create({
     fontWeight: "300",
   },
   detail: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "300",
   },
 });
