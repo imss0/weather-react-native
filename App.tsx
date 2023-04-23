@@ -41,6 +41,21 @@ const backgrounds: Colors = {
   Thunderstorm: "#7C96AB",
 };
 
+const clothes = {
+  above_28: "Sleeveless, short-sleeved, shorts",
+  below_28: "Short-sleeved, thin long-sleeved, shorts, trousers",
+  below_23: "Thin cardigans, long-sleeved, trousers, jeans",
+  below_20:
+    "Thin jumper, thin cardigans, thin jackets, sweatshirts, windbreakers, trousers, jeans",
+  below_17:
+    "Jackets, cardigans, field jackets, jumper, sweatshirts, fleece hoodies, jeans, trousers",
+  below_12: "Jackets, field jackets, jumpers, trench coats, jeans, trousers",
+  below_9:
+    "Coats, wool coats, leather jackets, fleeces, thermal underwear, jumper, jeans, thick trousers",
+  below_4:
+    "Padded jackets, thick coats, quilted jackets, thermal underwear, fleece pants, scarves, gloves",
+};
+
 export default function App() {
   const [city, setCity] = useState("Loading...");
   const [days, setDays] = useState<any[]>([]);
@@ -136,6 +151,42 @@ export default function App() {
               </View>
               <Text style={styles.description}>{day.weather[0].main}</Text>
               <Text style={styles.detail}>{day.weather[0].description}</Text>
+              <Text
+                style={{
+                  ...styles.clothing,
+                  textDecorationLine: "underline",
+                  marginTop: 40,
+                }}
+              >
+                What to wear
+              </Text>
+              {(!day.temp.day && (
+                <Text style={styles.clothing}>loading data.... 🥺</Text>
+              )) ||
+                (day.temp.day < 4 && (
+                  <Text style={styles.clothing}>{clothes.below_4}</Text>
+                )) ||
+                (day.temp.day < 9 && (
+                  <Text style={styles.clothing}>{clothes.below_9}</Text>
+                )) ||
+                (day.temp.day < 12 && (
+                  <Text style={styles.clothing}>{clothes.below_12}</Text>
+                )) ||
+                (day.temp.day < 17 && (
+                  <Text style={styles.clothing}>{clothes.below_17}</Text>
+                )) ||
+                (day.temp.day < 20 && (
+                  <Text style={styles.clothing}>{clothes.below_20}</Text>
+                )) ||
+                (day.temp.day < 23 && (
+                  <Text style={styles.clothing}>{clothes.below_23}</Text>
+                )) ||
+                (day.temp.day < 28 && (
+                  <Text style={styles.clothing}>{clothes.below_28}</Text>
+                )) ||
+                (day.temp.day >= 28 && (
+                  <Text style={styles.clothing}>{clothes.above_28}</Text>
+                ))}
             </View>
           ))
         )}
@@ -154,7 +205,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   cityName: {
-    fontSize: 60,
+    fontSize: 50,
     fontWeight: "800",
     marginTop: 40,
   },
@@ -185,5 +236,10 @@ const styles = StyleSheet.create({
   detail: {
     fontSize: 16,
     fontWeight: "300",
+  },
+  clothing: {
+    marginTop: 10,
+    marginHorizontal: 30,
+    fontSize: 20,
   },
 });
