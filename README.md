@@ -1,6 +1,6 @@
-# Simple Weather app [WIP]
+# WeaterWear[WIP]
 
-More functionalities are coming soon :D
+A simple weather app that shows what to wear in certain temperature
 
 <p float="left">
 <img src="https://i.ibb.co/8YNhNpF/2.png" width="500">
